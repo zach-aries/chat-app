@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Chat Application</title>
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Lobster+Two" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400" rel="stylesheet">
+    <script defer src="https://use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="public/css/styles.css" />
+
+    <style>
+    </style>
+</head>
+
+<body>
+    <main role="main" class="container-fluid">
+        <div class="row">
+            <div id="users" class="full-height col-md-3">
+                <div id="user-header">
+                    <img src="/public/img/peppermint_logo.svg" class="d-inline-block align-top">
+                    Peppermint
+                </div>
+
+                <div id="account">
+                    <h4><i class="fas fa-user-circle" style="margin-right: 7px"></i> <span id="username"></span></h4>
+                </div>
+
+                <ul id="user-list" class="list-unstyled"></ul>
+            </div>
+
+            <div  class="full-height col-md-9" style="position: relative; padding: 48px 0 0 0;">
+                <div id="chat-header">
+                    <p class="lead">Chat</p>
+                </div>
+                <div id="chat">
+                    <ul id="messages" class="list-unstyled"></ul>
+                    <form id="chat-input">
+                        <div class="input-group mb-3" style="margin-bottom: 0!important;">
+                            <input id="msg" autocomplete="off" placeholder="Message" type="text" class="form-control" aria-label="message" aria-describedby="basic-addon2">
+                            <div class="input-group-append">
+                                <button id="frm-submit" class="btn btn-outline-secondary" type="button">Send</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="public/js/chat.js" ></script>
+</body>
+</html>
