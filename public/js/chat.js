@@ -1,8 +1,8 @@
 $(function () {
     const socket = io();
-    let _username;
-    let _userID;
-    let _user_list = [];
+    var _username;
+    var _userID;
+    var _user_list = [];
 
     // init function
     socket.on('init', function(userID, username, user_list, messages) {
@@ -14,18 +14,18 @@ $(function () {
         setUserName(_username);
 
         // populate user list with all active users
-        for (let i = 0; i < user_list.length; i++) {
+        for (var i = 0; i < user_list.length; i++) {
             _user_list.push(user_list[i]);
             addUser(user_list[i]);
         }
 
         // populate messages
-        for (let i = 0; i < messages.length; i++) {
+        for (var i = 0; i < messages.length; i++) {
             addMessage(messages[i]);
         }
 
         // create alert to display current username
-        let alert = $('<li>')
+        var alert = $('<li>')
             .addClass('alert alert-light')
             .attr('role','alert')
             .text('Signed in as: ' + _username);
@@ -68,7 +68,7 @@ $(function () {
 
             dislaySuccess("Username changed to — " + _username);
         } else {
-            let i = _user_list.findIndex(x => x.userID === uid);
+            var i = _user_list.findIndex(x => x.userID === uid);
             if (i !== -1) {
                 _user_list[i].username = new_user;
                 $('#user-'+uid).html(new_user);
@@ -90,7 +90,7 @@ $(function () {
 
         if (msg.startsWith('/nickcolor')){
             if (msg.length === 17) {
-                let color = msg.substring(11, 17);
+                var color = msg.substring(11, 17);
 
                 if (color.match(/^[0-9a-zA-Z]+$/)){
                     socket.emit('usercolor change', _userID, color);
@@ -107,7 +107,7 @@ $(function () {
         }
 
         if (msg.startsWith('/nick')){
-            let new_user = msg.substring(6, msg.length);
+            var new_user = msg.substring(6, msg.length);
             if ( new_user.match(/\S/)){
                 new_user = new_user.trim();
                 if (new_user.length < 16){
@@ -138,15 +138,15 @@ $(function () {
     function addMessage(msg) {
 
 
-        let date = new Date(msg.timestamp);
-        let time = $('<span class="time"></span>').text(date.toLocaleString('en-US', {
+        var date = new Date(msg.timestamp);
+        var time = $('<span class="time"></span>').text(date.toLocaleString('en-US', {
             hour: 'numeric',
             minute: 'numeric',
             hour12: true
         }));
 
-        let info = $('<div>').addClass('msg-info').text(msg.username);
-        let li = $('<li>').addClass(msg.userID.toString()).text(msg.message);
+        var info = $('<div>').addClass('msg-info').text(msg.username);
+        var li = $('<li>').addClass(msg.userID.toString()).text(msg.message);
 
         if (msg.color !== null) {
             $(info).css("color", "#"+msg.color);
@@ -168,7 +168,7 @@ $(function () {
     }
 
     function addUser(user) {
-        let el_user = $('<li>').text(user.username);
+        var el_user = $('<li>').text(user.username);
         $(el_user).attr('id', 'user-' + user.userID);
 
 
@@ -180,16 +180,16 @@ $(function () {
     }
 
     function dislaySuccess(msg) {
-        let alert = $('<li>')
+        var alert = $('<li>')
             .addClass('alert alert-success alert-dismissible fade show')
             .attr('role','alert')
             .text(msg);
-        let btn = $('<button>')
+        var btn = $('<button>')
             .addClass('close')
             .attr('type','button')
             .attr('data-dismiss','alert')
             .attr('aria-label','Close');
-        let spn = $('<span>')
+        var spn = $('<span>')
             .attr('aria-hidden', true)
             .html('&times;');
 
@@ -201,16 +201,16 @@ $(function () {
     }
 
     function dislayError(msg) {
-        let alert = $('<li>')
+        var alert = $('<li>')
             .addClass('alert alert-danger alert-dismissible fade show')
             .attr('role','alert')
             .text(msg);
-        let btn = $('<button>')
+        var btn = $('<button>')
             .addClass('close')
             .attr('type','button')
             .attr('data-dismiss','alert')
             .attr('aria-label','Close');
-        let spn = $('<span>')
+        var spn = $('<span>')
             .attr('aria-hidden', true)
             .html('&times;');
 

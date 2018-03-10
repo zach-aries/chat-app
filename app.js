@@ -1,9 +1,11 @@
-let express = require ('express');
-let app = express ();
+var express = require ('express');
+var app = express ();
 
 const http = require('http').Server(app);
 const io = require('socket.io')(http);
-const port = 3000;
+
+var server_port = process.env.OPENSHIFT_NODEJS_PORT || 8080
+var server_ip_address = process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1'
 
 app.use ('/public', express.static('public'));
 
@@ -12,11 +14,11 @@ app.get('/', function (req, res) {
 });
 
 // keep track of online users
-let user_list = [];
+var user_list = [];
 // stores messages
-let messages = [];
+var messages = [];
 // identifier for new users
-let next_id = 0;
+var next_id = 0;
 
 io.on('connection', function (socket) {
 
@@ -32,7 +34,7 @@ io.on('connection', function (socket) {
         socket.emit('init', userID, username, user_list, messages);
 
         // create new user object
-        let user = {
+        var user = {
             id: socket.id,
             userID: userID,
             username: username,
@@ -46,11 +48,11 @@ io.on('connection', function (socket) {
     });
 
     socket.on('message', function (msg, userID) {
-        let timestamp = new Date();
-        let user = user_list.find(x => x.userID === userID);
+        var timestamp = new Date();
+        var user = user_list.find(x => x.userID === userID);
 
         // create new message for storage and formating
-        let message = {
+        var message = {
             id: messages.length,
             userID: userID,
             username: user.username,
@@ -61,7 +63,7 @@ io.on('connection', function (socket) {
 
         // store message
         messages.push(message);
-        // if the message list has more than 250 messages then delete the oldest one
+        // if the message list has more than 250 messages then devare the oldest one
         if( messages.length > 250 ){
             messages.shift();
         }
@@ -71,7 +73,7 @@ io.on('connection', function (socket) {
     });
 
     socket.on('usercolor change', function (userID, color) {
-        let i = user_list.findIndex(x => x.userID === userID);
+        var i = user_list.findIndex(x => x.userID === userID);
         if (i !== -1) {
             user_list[i].color = color;
         }
@@ -81,7 +83,7 @@ io.on('connection', function (socket) {
         // check to see if username exists, if so send and error back to sending client
         if (user_list.findIndex(x => x.username === new_user) === -1) {
             // get index of sending client for user list
-            let i = user_list.findIndex(x => x.userID === userID);
+            var i = user_list.findIndex(x => x.userID === userID);
             if (i !== -1) {
                 // change username
                 user_list[i].username = new_user;
@@ -107,6 +109,6 @@ io.on('connection', function (socket) {
     });
 });
 
-http.listen(port, function () {
-    console.log('listening on #:3000');
+http.listen(server_port, server_ip_address, function () {
+    console.log( "Listening on " + server_ip_address + ", port " + server_port )
 });
